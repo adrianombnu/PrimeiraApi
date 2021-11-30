@@ -17,13 +17,27 @@ namespace PrimeiraApi.Services
         public Usuario Get(Guid id) => _usuarios.Where(u => u.Id == id).SingleOrDefault();
         public IEnumerable<Usuario> Get() => _usuarios;
         public void Add(Usuario usuario) => _usuarios.Add(usuario);
-        public void Delete(Guid id) => _usuarios.RemoveAll(x => x.Id == id);
+        public void Delete(Guid id)
+        {
+            var usuario = _usuarios.SingleOrDefault(u => u.Id == id);
+
+            if (usuario is null)
+                throw new Exception("Usuario não encontrado!");
+
+            _usuarios.Remove(usuario);
+        }
+
         public void Update(Guid id, Usuario usuario)
         {
-            _usuarios.Where(w => w.Id == id).ToList().ForEach(f => f.Documento = usuario.Documento);
-            _usuarios.Where(w => w.Id == id).ToList().ForEach(f => f.Idade = usuario.Idade);
-            _usuarios.Where(w => w.Id == id).ToList().ForEach(f => f.Nome = usuario.Nome);
-            _usuarios.Where(w => w.Id == id).ToList().ForEach(f => f.Sobrenome = usuario.Sobrenome);
+            var user = _usuarios.SingleOrDefault(u => u.Id == id);
+
+            if (user is null)
+                throw new Exception("Usuario não encontrado!");
+
+            user.Idade = usuario.Idade;
+            user.Documento = usuario.Documento;
+            user.Nome = usuario.Nome;
+            user.Sobrenome = usuario.Sobrenome;    
 
         } 
 

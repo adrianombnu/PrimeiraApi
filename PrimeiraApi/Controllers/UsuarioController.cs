@@ -43,16 +43,34 @@ namespace PrimeiraApi.Controllers
         [HttpPut, Route("{id}")]
         public IActionResult Update(Guid id, Usuario usuario)
         {
-            _usuarioService.Update(id, usuario);
+            try
+            {
+                _usuarioService.Update(id, usuario);
 
-            return Created("", usuario);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+
+            return Created("Usuário alterado com sucesso!", usuario);
 
         }
 
         [HttpDelete, Route("{id}")]
         public IActionResult Delete(Guid id)
         {
-            _usuarioService.Delete(id);
+            try
+            {
+                _usuarioService.Delete(id);
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+                
+            }
 
             return Ok("Registro deletado com sucesso.");
 

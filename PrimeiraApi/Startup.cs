@@ -27,7 +27,10 @@ namespace PrimeiraApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Usado o comando abaixo para que cada requisição dos serviços no swagger mantenham na memória os registros que estamos inserindo na lista. Caso contrário a cada requisição
+            //a lista estaria vazia e não conseguiriamos testar a chamada do delete, consulta e update.
             services.AddSingleton<UsuarioService>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
